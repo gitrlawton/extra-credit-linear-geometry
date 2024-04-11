@@ -22,6 +22,14 @@ class Line:
             raise TypeError(
                 "Line.py __init__ point_b - must be a tuple."
             )
+        if len(point_a) is not 2:
+            raise ValueError(
+                "Line.py __init__ point_a - must contain two values."
+            )
+        if len(point_b) is not 2:
+            raise ValueError(
+                "Line.py __init__ point_b - must contain two values."
+            )
         if type(point_a[0]) is not int and type(point_a[0]) is not float:
             raise TypeError(
                 "Line.py __init__ point_a - point_a's X Value must be a number."
@@ -38,6 +46,7 @@ class Line:
             raise TypeError(
                 "Line.py __init__ point_b - point_b's Y Value must be a number."
             )
+        
         self.__point_a = point_a
         self.__point_b = point_b
 
@@ -62,6 +71,7 @@ class Line:
             raise TypeError(
                 "Line.py set_point_a point_a - point_a's Y Value must be a number."
             )  
+        
         self.__point_a = point_a
     
     def set_point_b(self, point_b):
@@ -77,6 +87,7 @@ class Line:
             raise TypeError(
                 "Line.py set_point_b point_b - point_b's Y Value must be a number."
             )   
+        
         self.__point_b = point_b
     
     def delta_x(self):
@@ -90,12 +101,13 @@ class Line:
     
     def distance(self):
         distance = math.sqrt((self.delta_x() ** 2) + (self.delta_y() ** 2))
+        
         return distance
     
     def traversal_time(self, speed):
-        if type(speed) is not int and type(speed) is not float:
+        if type(speed) is not float:
             raise TypeError(
-                "Line.py traversal_time speed - must be a number."
+                "Line.py traversal_time speed - must be a float."
             )
         if speed <= 0:
             raise ValueError(
@@ -105,17 +117,47 @@ class Line:
         return self.distance() / speed
     
     def traversal_speed(self, time):
-        pass
+        if type(time) is not float:
+            raise TypeError(
+                "Line.py traversal_speed time - must be a float."
+            )
+        if time <= 0:
+            raise ValueError(
+                "Line.py traversal_speed time - must be greater than 0."
+            )
+        
+        return self.distance() / time
     
     def midpoint(self):
-        pass
+        midpoint_x = (self.__point_a[0] + self.__point_b[0]) / 2
+        midpoint_y = (self.__point_a[1] + self.__point_b[1]) / 2
+        
+        return (midpoint_x, midpoint_y)
     
     def x_intercept(self):
-        pass
+        x_intercept = -1 * self.y_intercept() / self.slope()
+        
+        return x_intercept
     
     def y_intercept(self):
-        pass
+        y_intercept = self.slope() * (0 - self.__point_a[0]) + self.__point_a[1]
+        
+        return y_intercept
     
     def export_as_comma_separated_values(self, filename):
-        pass
-    
+        if type(filename) is not str:
+            raise TypeError(
+                "Line.py export_as_comma_separated_values filename - must be a string."
+            )
+        if not filename.endswith(".csv"):
+            raise ValueError(
+                "Line.py export_as_comma_separated_values filename - must end with .csv"
+            )
+        try:
+            with open(filename, "w") as output_file:
+                output_file.write("X,Y" + "\n")
+                output_file.write(str(self.__point_a[0]) + "," + str(self.__point_a[1]) + "\n")
+                output_file.write(str(self.__point_b[0]) + "," + str(self.__point_b[1]) + "\n")
+                
+        except IOError as exception_object:
+            print("An error occurred:", exception_object)
