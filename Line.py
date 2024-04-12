@@ -22,30 +22,34 @@ class Line:
             raise TypeError(
                 "Line.py __init__ point_b - must be a tuple."
             )
-        if len(point_a) is not 2:
+        if len(point_a) != 2:
             raise ValueError(
-                "Line.py __init__ point_a - must contain two values."
-            )
-        if len(point_b) is not 2:
+                "Line.py __init__ point_a - must contain exactly two values."
+            )     
+        if len(point_b) != 2:
             raise ValueError(
-                "Line.py __init__ point_b - must contain two values."
-            )
+                "Line.py __init__ point_b - must contain exactly two values."
+            )          
         if type(point_a[0]) is not int and type(point_a[0]) is not float:
             raise TypeError(
-                "Line.py __init__ point_a - point_a's X Value must be a number."
+                "Line.py __init__ point_a - point_a's X value must be a number."
             )
         if type(point_a[1]) is not int and type(point_a[1]) is not float:
             raise TypeError(
-                "Line.py __init__ point_a - point_a's Y Value must be a number."
+                "Line.py __init__ point_a - point_a's Y value must be a number."
             )
         if type(point_b[0]) is not int and type(point_b[0]) is not float:
             raise TypeError(
-                "Line.py __init__ point_b - point_b's X Value must be a number."
+                "Line.py __init__ point_b - point_b's X value must be a number."
             )
         if type(point_b[1]) is not int and type(point_b[1]) is not float:
             raise TypeError(
-                "Line.py __init__ point_b - point_b's Y Value must be a number."
+                "Line.py __init__ point_b - point_b's Y value must be a number."
             )
+        if point_a == point_b:
+            raise ValueError(
+                "Line.py __init__ point_b - cannot have the same X and Y value as point_a."
+            )         
         
         self.__point_a = point_a
         self.__point_b = point_b
@@ -58,35 +62,51 @@ class Line:
     def get_point_b(self):
         return self.__point_b
     
-    def set_point_a(self, point_a):
+    def set_point_a(self, point_a):      
         if type(point_a) is not tuple:
             raise TypeError(
                 "Line.py set_point_a point_a - must be a tuple."
             )
+        if len(point_a) != 2:
+            raise ValueError(
+                "Line.py set_point_a point_a - must contain exactly two values."
+            )        
         if type(point_a[0]) is not int and type(point_a[0]) is not float:
             raise TypeError(
-                "Line.py set_point_a point_a - point_a's X Value must be a number."
+                "Line.py set_point_a point_a - point_a's X value must be a number."
             )
         if type(point_a[1]) is not int and type(point_a[1]) is not float:
             raise TypeError(
-                "Line.py set_point_a point_a - point_a's Y Value must be a number."
-            )  
+                "Line.py set_point_a point_a - point_a's Y value must be a number."
+            )
+        if point_a == self.__point_b:
+            raise ValueError(
+                "Line.py set_point_a point_a - cannot have the same X and Y value as point_b."
+            )          
         
         self.__point_a = point_a
     
-    def set_point_b(self, point_b):
+    def set_point_b(self, point_b):        
         if type(point_b) is not tuple:
             raise TypeError(
                 "Line.py set_point_b point_b - must be a tuple."
             )
+        if len(point_b) != 2:
+            raise ValueError(
+                "Line.py set_point_b point_b - must contain exactly two values."
+            )           
         if type(point_b[0]) is not int and type(point_b[0]) is not float:
             raise TypeError(
-                "Line.py set_point_b point_b - point_b's X Value must be a number."
+                "Line.py set_point_b point_b - point_b's X value must be a number."
             )
         if type(point_b[1]) is not int and type(point_b[1]) is not float:
             raise TypeError(
-                "Line.py set_point_b point_b - point_b's Y Value must be a number."
+                "Line.py set_point_b point_b - point_b's Y value must be a number."
             )   
+        if point_b == self.__point_a:
+            raise ValueError(
+                "Line.py set_point_b point_b - cannot have the same X and Y value as point_a."
+            )          
         
         self.__point_b = point_b
     
@@ -159,5 +179,10 @@ class Line:
                 output_file.write(str(self.__point_a[0]) + "," + str(self.__point_a[1]) + "\n")
                 output_file.write(str(self.__point_b[0]) + "," + str(self.__point_b[1]) + "\n")
                 
-        except IOError as exception_object:
-            print("An error occurred:", exception_object)
+        except FileNotFoundError:
+            print("The specified file was not found.")
+        except PermissionError:
+            print("You do not have the necessary permissions required to access file.")
+        except Exception as exception_object:
+            print("An error occurred:", str(exception_object))
+            
