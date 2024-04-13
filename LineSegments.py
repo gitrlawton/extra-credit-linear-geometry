@@ -28,7 +28,7 @@ class LineSegments:
         for element in point_list:
             if element in unique_points:
                 raise ValueError(
-                    "LineSegments.py __init__ point_list - cannot contain duplicate points (multiple points with same X and Y value.)"
+                    "LineSegments.py __init__ point_list - cannot contain duplicate points (multiple points with the same X and Y value.)"
                 )
             if type(element) is not tuple:
                 raise TypeError(
@@ -40,11 +40,11 @@ class LineSegments:
                 )
             if type(element[0]) is not int and type(element[0]) is not float:
                 raise TypeError(
-                    "LineSegments.py __init__ point_list - each tuple's X Value must be a number."
+                    "LineSegments.py __init__ point_list - each tuple's X value must be a number."
                 )
             if type(element[1]) is not int and type(element[1]) is not float:
                 raise TypeError(
-                    "LineSegments.py __init__ point_list - each tuple's Y Value must be a number."
+                    "LineSegments.py __init__ point_list - each tuple's Y value must be a number."
                 )
             
             unique_points.add(element)
@@ -88,19 +88,19 @@ class LineSegments:
             )
         if len(point) != 2:
             raise ValueError(
-                "LineSegments.py set_point point - must contain two values."
+                "LineSegments.py set_point point - must contain exactly two values."
             )
         if type(point[0]) is not int and type(point[0]) is not float:
             raise TypeError(
-                "LineSegments.py set_point point - point's X Value must be a number."
+                "LineSegments.py set_point point - point's X value must be a number."
             )
         if type(point[1]) is not int and type(point[1]) is not float:
             raise TypeError(
-                "LineSegments.py set_point point - point's Y Value must be a number."
+                "LineSegments.py set_point point - point's Y value must be a number."
             )
         if point in self.__point_list and self.__point_list[index] != point:
             raise ValueError(
-                "LineSegments.py set_point point - this point is already in the list of points.  Cannot add duplicate points."
+                "LineSegments.py set_point point - this point is already in the list of points. Cannot add duplicate points."
             )           
         
         self.__point_list[index] = point
@@ -112,8 +112,8 @@ class LineSegments:
         point_a = self.__point_list[0]
         point_b = self.__point_list[len(self.__point_list) - 1]
         
-        delta_x = float(point_b[0] - point_a[0])
-        delta_y = float(point_b[1] - point_a[1])
+        delta_x = point_b[0] - point_a[0]
+        delta_y = point_b[1] - point_a[1]
             
         distance = math.sqrt((delta_x ** 2) + (delta_y ** 2))
         
@@ -152,13 +152,17 @@ class LineSegments:
         if second_point_index >= len(self.__point_list):
             raise ValueError(
                 "LineSegments.py segment_distance second_point_index - cannot be greater than " + str(len(self.__point_list) - 1) + "."
-            )        
+            )
+        if first_point_index == second_point_index:
+            raise ValueError(
+                "LineSegments.py segment_distance second_point_index - cannot use the same index for both first_point_index and second_point_index."
+            )
         
         point_a = self.__point_list[first_point_index]
         point_b = self.__point_list[second_point_index]
         
-        delta_x = float(point_b[0] - point_a[0])
-        delta_y = float(point_b[1] - point_a[1])
+        delta_x = point_b[0] - point_a[0]
+        delta_y = point_b[1] - point_a[1]
             
         distance = math.sqrt((delta_x ** 2) + (delta_y ** 2))
         
@@ -188,7 +192,11 @@ class LineSegments:
         if second_point_index >= len(self.__point_list):
             raise ValueError(
                 "LineSegments.py segment_midpoint second_point_index - cannot be greater than " + str(len(self.__point_list) - 1) + "."
-            )         
+            )   
+        if first_point_index == second_point_index:
+            raise ValueError(
+                "LineSegments.py segment_midpoint second_point_index - cannot use the same index for both first_point_index and second_point_index."
+            )        
         
         point_a = self.__point_list[first_point_index]
         point_b = self.__point_list[second_point_index]
@@ -204,9 +212,9 @@ class LineSegments:
         for index in range(1, len(self.__point_list), 1):
             previous_point = self.__point_list[index - 1]
             current_point = self.__point_list[index]
-            
-            delta_x = float(current_point[0] - previous_point[0])
-            delta_y = float(current_point[1] - previous_point[1])
+        
+            delta_x = current_point[0] - previous_point[0]
+            delta_y = current_point[1] - previous_point[1]
             
             distance = math.sqrt((delta_x ** 2) + (delta_y ** 2))
             
@@ -259,6 +267,6 @@ class LineSegments:
         except FileNotFoundError:
             print("The specified file was not found.")
         except PermissionError:
-            print("You do not have the necessary permissions required to access file.")
+            print("You do not have the necessary permissions required to perform this action.")
         except Exception as exception_object:
             print("An error occurred:", str(exception_object))

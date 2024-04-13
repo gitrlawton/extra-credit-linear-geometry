@@ -117,7 +117,7 @@ class Line:
         return float(self.__point_b[1] - self.__point_a[1])
     
     def slope(self):
-        return self.delta_x() / self.delta_y()
+        return self.delta_y() / self.delta_x()
     
     def distance(self):
         distance = math.sqrt((self.delta_x() ** 2) + (self.delta_y() ** 2))
@@ -182,7 +182,6 @@ class Line:
         except FileNotFoundError:
             print("The specified file was not found.")
         except PermissionError:
-            print("You do not have the necessary permissions required to access file.")
+            print("You do not have the necessary permissions required to perform this action.")
         except Exception as exception_object:
             print("An error occurred:", str(exception_object))
-            
